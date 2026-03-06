@@ -6,7 +6,7 @@ to estimate the probability of finding love based on various life factors.
 """
 
 import math
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 
 class LoveCalculator:
@@ -88,6 +88,7 @@ class LoveFinderApp:
         """Initialize the love finder application."""
         self.calculator = LoveCalculator()
         self.running = True
+        self.city_population: Optional[int] = None
 
     def display_welcome(self):
         """Display welcome message and explanation."""
@@ -104,6 +105,20 @@ class LoveFinderApp:
 
     def get_user_input(self) -> bool:
         """Collect user inputs for all love factors."""
+        while True:
+            try:
+                raw_population = input(
+                    "\nPopulation of your city (whole number, e.g. 120000): "
+                ).strip()
+                normalized = raw_population.replace(",", "").replace("_", "")
+                population = int(normalized)
+                if population <= 0:
+                    raise ValueError("Population must be positive")
+                self.city_population = population
+                break
+            except ValueError:
+                print("Please enter a valid positive whole number.")
+
         factors = [
             (
                 "demographic_compatibility",
@@ -145,6 +160,13 @@ class LoveFinderApp:
         print("📊 LOVE PROBABILITY RESULTS 📊")
         print("=" * 60)
         print(f"Your estimated probability of finding love: {probability:.1f}%")
+        if self.city_population is not None:
+            estimated_people = int(
+                math.floor(self.city_population * (probability / 100))
+            )
+            print(
+                f"Estimated people in your city from that population: {estimated_people:,}"
+            )
         print("\n🔍 Detailed Factors:")
         factors = self.calculator.get_factors()
         for factor_name, value in factors.items():

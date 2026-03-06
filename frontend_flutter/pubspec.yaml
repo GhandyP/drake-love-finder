@@ -1,0 +1,19 @@
+name: drake_love_finder_front
+description: A very simple Flutter frontend for Drake Equation Love Finder.
+publish_to: "none"
+
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
